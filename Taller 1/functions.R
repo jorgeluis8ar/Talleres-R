@@ -118,12 +118,3 @@ geih2 <- function(path_file){
   return(base)
 }
 
-
-mergegeih <- function(nombre,periodo,archivo1,archivo2,archivo3,archivo4,archivo5){
-  nombre = merge(x = archivo1 , y = archivo2 , by = c('directorio','secuencia_p','orden'), all.x = T )  
-  nombre = merge(x = nombre , y = archivo3 , by = c('directorio','secuencia_p','orden'), all.x = T )
-  nombre = merge(x = nombre , y = archivo4 , by = c('directorio','secuencia_p','orden'), all.x = T ) 
-  nombre = merge(x = nombre , y = archivo5 , by = c('directorio','secuencia_p','orden'), all.x = T )
-  nombre$year=as.numeric(periodo)
-}
-

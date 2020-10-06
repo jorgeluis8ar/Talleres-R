@@ -113,28 +113,23 @@ resto2020$periodo=2019
 
 resto2020 %>% summarise(total=sum(fex_c_2011))
 
+cabecera=plyr::rbind.fill(cabecera2019,cabecera2020)
+resto=plyr::rbind.fill(resto2019,resto2020)
 
 
-data2019 = lista_2019  %>% data.table::rbindlist(use.names = T,fill = T)
-data2020 = lista_2020  %>% data.table::rbindlist(use.names = T,fill = T)
+rm(list=ls()[grepl(pattern = "cabecera2", x = ls())])
+rm(list=ls()[grepl(pattern = "resto2", x = ls())])
+rm(list=ls()[grepl(pattern = "2020_cabecera", x = ls())])
+rm(list=ls()[grepl(pattern = "2019_cabecera", x = ls())])
+rm(list=ls()[grepl(pattern = "2020_resto", x = ls())])
+rm(list=ls()[grepl(pattern = "2019_resto", x = ls())])
+rm(list=ls()[grepl(pattern = "lista", x = ls())])
+rm(list=ls()[grepl(pattern = "file", x = ls())])
+rm(list=ls()[grepl(pattern = "geih", x = ls())])
+rm(list=ls()[grepl(pattern = "n", x = ls())])
+rm(list=ls()[grepl(pattern = "paquetes", x = ls())])
 
-cabecera=merge(x=cg_cabecera,y =deso_cabecera,by = c('directorio','secuencia_p','orden'), all = TRUE)
-
-
-
-cabecera2019 = subset(data2019,nivel=="Cabecera")
-cabecera2020 = subset(data2020,nivel=="Cabecera")
-
-resto2019 = subset(data2019,nivel=="Resto")
-resto2020 = subset(data2020,nivel=="Resto")
-
-nacional=plyr::rbind.fill(data2019,data2020)
-
-nacional %>% group_by(periodo,dpto) %>% summarize(total=sum)
+eliminar=c('cabecera2','resto2','2020_cabecera','2019_cabecera','2020_resto','2019_resto','lista','file','geih','n','paquetes')
 
 
 
-  
-  
-archivo='/Users/jorgeochoa/Documents/Universidad/Taller de R/Talleres-R/Taller 1/data/orignal/Junio2 2020/Resto - Caracteristicas generales (Personas).csv'
-base=read.csv2(file =archivo, header = T,sep=';')
