@@ -35,11 +35,19 @@ geih <- function(path_file){
               grep('orden',colnames(base)),
               grep('directorio',colnames(base)),
               grep('indicador',colnames(base)),
-              grep('nivel',colnames(base))
+              grep('nivel',colnames(base)),
+              grep('inglabo',colnames(base)),
+              grep('p6440',colnames(base)),
+              grep('p6450',colnames(base)),
+              grep('p6920',colnames(base)),
+              grep('p6500',colnames(base)),
+              grep('p6750',colnames(base))
     )
     base=base[,nombres]
     names(base)[names(base) == "nivel"] <- paste0(archivo,"-",substr(indica,1,2))
     names(base)[names(base) == "indicador"] <- substr(indica,1,3)
+    names(base)[names(base) == "p6500"] <- "inglabo"
+    names(base)[names(base) == "p6750"] <- "inglabodes"
     }
   return(base)
 }
@@ -80,11 +88,19 @@ geih3 <- function(path_file){
               grep('orden',colnames(base)),
               grep('directorio',colnames(base)),
               grep('indicador',colnames(base)),
-              grep('nivel',colnames(base))
+              grep('nivel',colnames(base)),
+              grep('inglabo',colnames(base)),
+              grep('p6440',colnames(base)),
+              grep('p6450',colnames(base)),
+              grep('p6920',colnames(base)),
+              grep('p6500',colnames(base)),
+              grep('p6750',colnames(base))
     )
     base=base[,nombres]
     names(base)[names(base) == "nivel"] <- paste0(archivo,"-",substr(indica,1,2))
     names(base)[names(base) == "indicador"] <- substr(indica,1,3)
+    names(base)[names(base) == "p6500"] <- "inglabo"
+    names(base)[names(base) == "p6750"] <- "inglabodes"
   }
   return(base)
 }
