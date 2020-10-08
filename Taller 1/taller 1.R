@@ -2,8 +2,9 @@
 # Codigo: 201711018
 # Taller de R - Task 1
 
-# Limpiando la consola
-
+#---------------------------------------------------
+#     Limpiando la consola y cargando paquetes
+#---------------------------------------------------
 cat("\f")
 rm(list=ls())
 options("scipen"=100, "digits"=4)
@@ -13,110 +14,67 @@ paquetes=c("tidyverse","data.table","ggplot2",'viridis')
 
 lapply(paquetes,require,character.only=T)
 source("taller 1/functions.R") 
-
+#---------------------------------------------------
+#          1.1 Importar bases de datos 
+#---------------------------------------------------
+# Lista para junio de 2019
 file_archivos <- list.files("Taller 1/data/orignal/Junio 2019") %>% paste0("Taller 1/data/orignal/Junio 2019/",.)
 lista_2019 = lapply(file_archivos,function(x) geih(path_file = x)) 
-cg_2019_cabecera = lista_2019[1] %>% as.data.frame()
-cg_2019_resto = lista_2019[6]  %>% as.data.frame()
-lista_2019 = lista_2019[-1]
-lista_2019 = lista_2019[-5]
-for (n in 1:8){
-    if (n==1 ){
-      de_2019_cabecera = lista_2019[n] %>% as.data.frame()
-    } 
-    if (n==2 ){
-      ft_2019_cabecera = lista_2019[n] %>% as.data.frame()
-    } 
-    if (n==3 ){
-      in_2019_cabecera = lista_2019[n] %>% as.data.frame()
-    } 
-    if (n==4 ){
-      oc_2019_cabecera = lista_2019[n] %>% as.data.frame()
-    } 
-    if (n==5 ){
-      de_2019_resto = lista_2019[n] %>% as.data.frame()
-    } 
-    if (n==6 ){
-      ft_2019_resto = lista_2019[n] %>% as.data.frame()
-    } 
-    if (n==7 ){
-      in_2019_resto = lista_2019[n] %>% as.data.frame()
-    } 
-    if (n==8 ){
-      oc_2019_resto = lista_2019[n] %>% as.data.frame()
-    } 
-  }
+cg_2019_cabecera = lista_2019[1] %>% as.data.frame() # se sepata caracteristicas generales de la lista - cabecera
+cg_2019_resto = lista_2019[6]  %>% as.data.frame() # se sepata caracteristicas generales de la lista - resto
+lista_2019 = lista_2019[-1] # Eliminando caracteristicas generales de cabecera
+lista_2019 = lista_2019[-5] # Eliminando caracteristicas generales de resto
 
+# Creando una base de datos que una todos los datos de cabecera para junio 2019
+cabecera2019 = merge(x = cg_2019_cabecera,y =  lista_2019[[1]],by = c('directorio','secuencia_p','orden'), all.x = T) %>% 
+               merge(.,y = lista_2019[[2]],by = c('directorio','secuencia_p','orden'), all.x = T) %>% 
+               merge(.,y = lista_2019[[3]],by = c('directorio','secuencia_p','orden'), all.x = T) %>% 
+               merge(.,y = lista_2019[[4]],by = c('directorio','secuencia_p','orden'), all.x = T)
 
-cabecera2019 = merge(x = cg_2019_cabecera , y = de_2019_cabecera , by = c('directorio','secuencia_p','orden'), all.x = T )  
-cabecera2019 = merge(x = cabecera2019 , y = ft_2019_cabecera , by = c('directorio','secuencia_p','orden'), all.x = T )
-cabecera2019 = merge(x = cabecera2019 , y = in_2019_cabecera , by = c('directorio','secuencia_p','orden'), all.x = T ) 
-cabecera2019 = merge(x = cabecera2019 , y = oc_2019_cabecera , by = c('directorio','secuencia_p','orden'), all.x = T )
 cabecera2019$periodo="2019"
 
 cabecera2019 %>% summarise(total=sum(fex_c_2011))
-
-resto2019 = merge(x = cg_2019_resto , y = de_2019_resto , by = c('directorio','secuencia_p','orden'), all.x = T )  
-resto2019 = merge(x = resto2019 , y = ft_2019_resto , by = c('directorio','secuencia_p','orden'), all.x = T )
-resto2019 = merge(x = resto2019 , y = in_2019_resto , by = c('directorio','secuencia_p','orden'), all.x = T ) 
-resto2019 = merge(x = resto2019 , y = oc_2019_resto , by = c('directorio','secuencia_p','orden'), all.x = T )
+# Creando una base de datos que una todos los datos de resto para junio 2019
+resto2019 = merge(x = cg_2019_resto,y = lista_2019[[5]],by = c('directorio','secuencia_p','orden'), all.x = T) %>% 
+            merge(.,y = lista_2019[[6]],by = c('directorio','secuencia_p','orden'), all.x = T) %>% 
+            merge(.,y = lista_2019[[7]],by = c('directorio','secuencia_p','orden'), all.x = T) %>% 
+            merge(.,y = lista_2019[[8]],by = c('directorio','secuencia_p','orden'), all.x = T)
 resto2019$periodo="2019"
 
 resto2019 %>% summarise(total=sum(fex_c_2011))
-
+# Lista para junio de 2020
 file_archivos <- list.files("Taller 1/data/orignal/Junio2 2020") %>% paste0("Taller 1/data/orignal/Junio2 2020/",.)
 lista_2020 = lapply(file_archivos,function(x) geih3(path_file = x))
-cg_2020_cabecera = lista_2020[1] %>% as.data.frame()
-cg_2020_resto = lista_2020[6] %>% as.data.frame()
-lista_2020 = lista_2020[-1]
-lista_2020 = lista_2020[-5] 
-for (n in 1:8){
-  if (n==1 ){
-    de_2020_cabecera = lista_2020[n] %>% as.data.frame()
-  } 
-  if (n==2 ){
-    ft_2020_cabecera = lista_2020[n] %>% as.data.frame()
-  } 
-  if (n==3 ){
-    in_2020_cabecera = lista_2020[n] %>% as.data.frame()
-  } 
-  if (n==4 ){
-    oc_2020_cabecera = lista_2020[n] %>% as.data.frame()
-  } 
-  if (n==5 ){
-    de_2020_resto = lista_2020[n] %>% as.data.frame()
-  } 
-  if (n==6 ){
-    ft_2020_resto = lista_2020[n] %>% as.data.frame()
-  } 
-  if (n==7 ){
-    in_2020_resto = lista_2020[n] %>% as.data.frame()
-  } 
-  if (n==8 ){
-    oc_2020_resto = lista_2020[n] %>% as.data.frame()
-  } 
-}
+cg_2020_cabecera = lista_2020[1] %>% as.data.frame() # se sepata caracteristicas generales de la lista - cabecera
+cg_2020_resto = lista_2020[6] %>% as.data.frame() # se sepata caracteristicas generales de la lista - cabecera
+lista_2020 = lista_2020[-1] # Eliminando caracteristicas generales de cabecera
+lista_2020 = lista_2020[-5]  # Eliminando caracteristicas generales de resto
 
-cabecera2020 = merge(x = cg_2020_cabecera , y = de_2020_cabecera , by = c('directorio','secuencia_p','orden'), all.x = T )  
-cabecera2020 = merge(x = cabecera2020 , y = ft_2020_cabecera , by = c('directorio','secuencia_p','orden'), all.x = T )
-cabecera2020 = merge(x = cabecera2020 , y = in_2020_cabecera , by = c('directorio','secuencia_p','orden'), all.x = T ) 
-cabecera2020 = merge(x = cabecera2020 , y = oc_2020_cabecera , by = c('directorio','secuencia_p','orden'), all.x = T )
+
+# Creando una base de datos que una todos los datos de cabecera para junio 2020
+cabecera2020 = merge(x = cg_2020_cabecera,y =  lista_2020[[1]],by = c('directorio','secuencia_p','orden'), all.x = T) %>% 
+               merge(.,y = lista_2020[[2]],by = c('directorio','secuencia_p','orden'), all.x = T) %>% 
+               merge(.,y = lista_2020[[3]],by = c('directorio','secuencia_p','orden'), all.x = T) %>% 
+               merge(.,y = lista_2020[[4]],by = c('directorio','secuencia_p','orden'), all.x = T)
+
 cabecera2020$periodo="2020"
 
 cabecera2020 %>% summarise(total=sum(fex_c_2011))
-
-resto2020 = merge(x = cg_2020_resto , y = de_2020_resto , by = c('directorio','secuencia_p','orden'), all.x = T )  
-resto2020 = merge(x = resto2020 , y = ft_2020_resto , by = c('directorio','secuencia_p','orden'), all.x = T )
-resto2020 = merge(x = resto2020 , y = in_2020_resto , by = c('directorio','secuencia_p','orden'), all.x = T ) 
-resto2020 = merge(x = resto2020 , y = oc_2020_resto , by = c('directorio','secuencia_p','orden'), all.x = T )
+# Creando una base de datos que una todos los datos de resto para junio 2020
+resto2020 = merge(x = cg_2020_resto,y = lista_2020[[5]],by = c('directorio','secuencia_p','orden'), all.x = T) %>% 
+            merge(.,y = lista_2020[[6]],by = c('directorio','secuencia_p','orden'), all.x = T) %>% 
+            merge(.,y = lista_2020[[7]],by = c('directorio','secuencia_p','orden'), all.x = T) %>% 
+            merge(.,y = lista_2020[[8]],by = c('directorio','secuencia_p','orden'), all.x = T)
 resto2020$periodo="2020"
 
 resto2020 %>% summarise(total=sum(fex_c_2011))
-
+#---------------------------------------------------
+#                 1.2 Unir datos
+#---------------------------------------------------
+# Uniendo y consolidando las bases de datos por cabecera y resto
 cabecera=plyr::rbind.fill(cabecera2019,cabecera2020)
 resto=plyr::rbind.fill(resto2019,resto2020)
-
- 
+# Limpiando la consola para dejar unicamente los dos anteriores objetos
 rm(list=ls()[grepl(pattern = "cabecera2", x = ls())])
 rm(list=ls()[grepl(pattern = "resto2", x = ls())])
 rm(list=ls()[grepl(pattern = "2020_cabecera", x = ls())])
@@ -126,28 +84,30 @@ rm(list=ls()[grepl(pattern = "2019_resto", x = ls())])
 rm(list=ls()[grepl(pattern = "lista", x = ls())])
 rm(list=ls()[grepl(pattern = "file", x = ls())])
 rm(list=ls()[grepl(pattern = "geih", x = ls())])
-rm(list=ls()[grepl(pattern = "n", x = ls())])
 rm(list=ls()[grepl(pattern = "paquetes", x = ls())])
-
-
+#---------------------------------------------------
+#              1.3 Una base nacional
+#---------------------------------------------------
+# creando la base nacional
 nacional = plyr::rbind.fill(cabecera,resto)
+
 lapply(nacional, function(x) is.na(x) %>% table()) 
-# Nivel
+#Nivel: creando una variable de indicador de cabecera o resto
 nacional=mutate(nacional,nivel=ifelse(test = (is.na(Cabecera.Ca))==T,yes = Resto.Ca,no = Cabecera.Ca))
 nacional %>% group_by(periodo,nivel) %>% summarise(total=sum(fex_c_2011))
-# desocupados
+# Organizando las variables y limpiando la base
 names(nacional)[names(nacional) == "Car"] <- "general"
 names(nacional)[names(nacional) == "Des"] <- "desocupados"
 names(nacional)[names(nacional) == "Ocu"] <- "OC"
 names(nacional)[names(nacional) == "Ina"] <- "inactivos"
 names(nacional)[names(nacional) == "Fue"] <- "fuerza"
-
+# creando indicadores para cada modulo de la GEIH
 nacional$general=ifelse(test = is.na(nacional$general)==T,0,1)
 nacional$desocupados=ifelse(test = is.na(nacional$desocupados)==T,0,1)
 nacional$ocupados=ifelse(test = is.na(nacional$OC)==T,0,1)
 nacional$inactivos=ifelse(test = is.na(nacional$inactivos)==T,0,1)
 nacional$fuerza=ifelse(test = is.na(nacional$fuerza)==T,0,1)
-
+# Eliminando variables
 nombres=c(grep('secuencia_p',colnames(nacional)),
           grep('orden',colnames(nacional)),
           grep('directorio',colnames(nacional)),
@@ -178,8 +138,9 @@ nacional=nacional[,nombres]
 
 cabecera %>% group_by(periodo) %>% summarise(total=sum(fex_c_2011))
 resto %>% group_by(periodo) %>% summarise(total=sum(fex_c_2011))
-
-
+#---------------------------------------------------
+#                 1.4 Descriptivas
+#---------------------------------------------------
 pet=nacional %>% subset(fuerza==1) %>% group_by(periodo,nivel) %>% summarise(pet=sum(fex_c_2011)) 
 ina=nacional %>% subset(inactivos==1) %>% group_by(periodo,nivel) %>% summarise(ina=sum(fex_c_2011))
 des=nacional %>% subset(desocupados==1) %>% group_by(periodo,nivel) %>% summarise(des=sum(fex_c_2011))
