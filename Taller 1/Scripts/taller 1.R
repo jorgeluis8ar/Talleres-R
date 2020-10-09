@@ -339,3 +339,40 @@ td_ed_geb=ggplot(pet,aes(x = p6040,y = td, group=interaction(periodo,sexo), colo
   theme(legend.position="right")+
   scale_fill_viridis()
 ggsave(plot= td_ed_geb , file = "Taller 1/Resultados/tasa de desempleo por genero y edad.jpeg")
+
+ocupados = nacional %>% subset(ocupados==1) %>% group_by(periodo,esc, sexo) %>% summarise(ocupados=sum(fex_c_2011)) %>% as.data.frame()
+ocupados = reshape2::dcast(data = ocupados,formula = esc +sexo ~periodo,value.var = "ocupados")
+ocupados$diff=ocupados$`2019`-ocupados$`2020`
+
+difff=ggplot(ocupados,aes(x = esc,y = diff,group=sexo,fill=sexo))+ 
+                geom_bar(stat = "identity",position = position_dodge()) + theme_bw()+
+                labs(title = "Diferencia ocupados junio 2019 y junio 2020 por grado de escolaridad",y = "Diferencia Ocupados",x = "Escolaridad")+
+                theme(plot.title = element_text(hjust = 0.5))+
+                scale_x_continuous(n.breaks = 20)+ #https://stackoverflow.com/questions/11335836/increase-number-of-axis-ticks
+                scale_fill_viridis(discrete = T,option = "E")
+ggsave(plot= difff , file = "Taller 1/Resultados/diferencia ocupados por genero y escolaridad.jpeg")
+
+ocupados_dpto = nacional %>% subset(ocupados==1) %>% group_by(periodo,nombre.y, sexo) %>% summarise(ocupados=sum(fex_c_2011)) %>% as.data.frame()
+ocupados_dpto = reshape2::dcast(data = ocupados_dpto,formula = nombre.y +sexo ~periodo,value.var = "ocupados")
+ocupados_dpto$diff=ocupados_dpto$`2019`-ocupados_dpto$`2020`
+
+dif_dpto = ggplot(ocupados_dpto,aes(x = nombre.y,y = diff,group=sexo,fill=sexo))+
+  geom_bar(stat = "identity",position = position_dodge()) + theme_bw()+
+  labs(title = "Diferencia ocupados junio 2019 y junio 2020 por departamento",y = "Diferencia Ocupados",x = "Departamento")+
+  theme(plot.title = element_text(hjust = 0.5))+
+  scale_fill_viridis(discrete = T,option = "E")+
+  theme(axis.text.x = element_text(angle = 90))
+ggsave(plot= dif_dpto , file = "Taller 1/Resultados/diferencia ocupados por genero y departamento.jpeg")
+
+ocupados_con = nacional %>% subset(ocupados==1&is.na(p6440)==F) %>% group_by(periodo,p6440, sexo) %>% summarise(ocupados=sum(fex_c_2011)) %>% as.data.frame()
+ocupados_con = reshape2::dcast(data = ocupados_con,formula = p6440 +sexo ~periodo,value.var = "ocupados")
+ocupados_con$diff=ocupados_con$`2019`-ocupados_con$`2020`
+ocupados_con$p6440=as.character(ocupados_con$p6440)
+ocupados_con$tipo=ifelse(test = (ocupados_con$p6440==1)==T,"Contrato laboral","Sin contrato laboral")
+
+dif_contrato = ggplot(ocupados_con,aes(x = tipo,y = diff,group=sexo,fill=sexo))+
+  geom_bar(stat = "identity",position = position_dodge()) + theme_bw()+
+  labs(title = "Diferencia ocupados junio 2019 y junio 2020 por tipo de contrato",y = "Diferencia Ocupados",x = "Tipo de contrato")+
+  theme(plot.title = element_text(hjust = 0.5))+
+  scale_fill_viridis(discrete = T,option = "E")
+ggsave(plot= dif_contrato , file = "Taller 1/Resultados/diferencia ocupados por tipo de contrato.jpeg")

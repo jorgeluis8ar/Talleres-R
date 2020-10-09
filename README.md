@@ -76,3 +76,18 @@ En términos de Tasa de Desempleo (TD), el número de desocupados, el numero de 
 La siguiente gráfica muestra la tasa de desempleo según grupo de edad y genero. Se observa la diferencia entre junio de 2019 y junio de 2020, pero aún más importante se evidencia la constante brecha en la tasa de desempleo entre hombres y mujeres. Es importante notar que esta diferencia se mantiene en ausencia de distorsiones laborales como el COVID-19. También se observa que estas diferencias se reducen y las tasas de desempleo entre hombres y mujeres tienden a disipar sus diferencias.
 
 <img src="Taller 1/Resultados/tasa de desempleo por genero y edad.jpeg" class="center" alt="drawing" style="width:1000px;"/>
+
+
+Con estos resultados, las mujeres han perdido un mayor numero de empleos de junio 2019 a julio de 2020. Este resultado se evidencia en la caída en el numero de ocupados donde la diferencia para hombres durante el periodo analizado es de **1,655** millones de personas, mientras que para mujeres esta diferencia se encuentra en **2,139** millones de personas. Las siguientes gráficas muestran la diferencia en el número de ocupados para diferentes niveles de escolaridad, tipo de contrato y departamento por género respectivamente.
+
+<img src="Taller 1/Resultados/diferencia ocupados por genero y escolaridad.jpeg" class="center" alt="drawing" style="width:1000px;"/>
+
+Mirando las diferencias en el aumento de numero de ocupados según el nivel de escolaridad no se puede llegar a una conclusión. Pero se observa que en niveles bajos de educación las mujeres tienden a perder un mayor numero de empleos que los hombres, siendo esta diferencia máxima a los 11 años de escolaridad.
+
+<img src="Taller 1/Resultados/diferencia ocupados por genero y departamento.jpeg" class="center" alt="drawing" style="width:1000px;"/>
+
+Mirando las diferencias en el aumento de numero de ocupados por departamento no se puede llegar a una conclusión. La anterior gráfica permite observar la pérdida de empleos por cada departamento.
+
+<img src="Taller 1/Resultados/diferencia ocupados por tipo de contrato.jpeg" class="center" alt="drawing" style="width:1000px;"/>
+
+Mirando las diferencias en el aumento de numero de ocupados por tipo de contrato no se puede llegar a una conclusión. Pero se puede evidenciar que existió una perdida de empleo mayor tanto para hombres como para mujeres en trabajos formales que informales.
