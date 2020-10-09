@@ -145,7 +145,7 @@ des=nacional %>% subset(desocupados==1) %>% group_by(periodo,nivel) %>% summaris
 pea=pet[,3]-ina[,3]
 unemployment=(des[,3]/pea)*100
 periodo=c("Junio 2019","Junio 2019","Junio 2020","Junio 2020")
-nivel=c("Cabecera","Nivel","Cabecera","Nivel")
+nivel=c("Cabecera","Resto","Cabecera","Resto")
 unemployment=cbind(periodo,nivel, unemployment) %>% print()
 unemployment$periodo=as.character(unemployment$periodo)
 unemployment$nivel=as.character(unemployment$nivel)
@@ -172,6 +172,7 @@ ggsave(plot= td_nivel , file = "Taller 1/Resultados/tasa de desempleo por nivel.
 deptos=readxl::read_excel("Taller 1/data/orignal/tasa_deso_sexo.xlsx","Sheet1")
 colnames(deptos)=c('dpto','nombre')
 nacional=merge(x = nacional,y =deptos,by="dpto",all.x = T)
+
 # Fuerza laboral por departamento y periodo
 fl_depto=nacional %>% subset(fuerza==1) %>% group_by(periodo,nombre) %>% summarise(total=sum(fex_c_2011)) %>%
 as.data.frame() %>% ggplot(aes(x = nombre,y = total, group=periodo,color=periodo))+
@@ -197,8 +198,16 @@ to_depto=ggplot(oc,aes(x = nombre,y = to,group=periodo,color=periodo))+
                         scale_color_discrete(name="Año",labels = c("2019", "2020"))+
                         theme(axis.text.x = element_text(angle = 90))
 ggsave(plot= to_depto , file = "Taller 1/Resultados/tasa de ocupacion por depto.jpeg")
+# Tasa de ocupacion por departamento y periodo
+ocn=nacional %>% subset(ocupados==1) %>% group_by(periodo,nivel) %>% summarise(total=sum(fex_c_2011)) %>% as.data.frame()
+peetn=nacional %>% subset(fuerza==1) %>% group_by(periodo,nivel) %>% summarise(pet=sum(fex_c_2011)) %>% as.data.frame() 
+ocn=merge(x = ocn,y = peetn,by = c('periodo','nivel'),all.x = T)
+ocn$to=(ocn$total/ocn$pet)*100
 # Ingresos laborales por genero y periodo
 nacional=mutate(nacional,sexo=ifelse(test = (nacional$p6020==1)==T,"Hombre","Mujer"))
+  # Guardando la base nacional
+  saveRDS(object = nacional , file = "Taller 1/Data/procesada/Base nacional.rds")
+  
 ingro_gen=nacional %>% subset(ocupados==1) %>% group_by(periodo,sexo) %>% summarise(ingresos=weighted.mean(inglabo,fex_c_2011,na.rm = T)) %>% 
 as.data.frame() %>% ggplot(aes(x=sexo,y =ingresos,group=periodo,fill=periodo)) + 
                     geom_bar(stat = "identity",position = position_dodge())+ theme_bw()+
@@ -278,3 +287,55 @@ base=reshape2::melt(base,id.vars=c("country","year"),value.name = 'tasa')
 base$tasa=as.numeric(base$tasa) 
 base$tasa=round(base$tasa,2)
 colnames(base)[3]="clase"
+rm(list=ls())
+#---------------------------------------------------
+#                    TALLER B
+#---------------------------------------------------
+
+file = "/Users/jorgeochoa/Documents/Universidad/Taller de R/Talleres-R/Taller 1/Data/procesada/Base nacional.rds"
+nacional=readRDS(file)
+#Tasa de ocupacion por genero
+oc=nacional %>% subset(ocupados==1) %>% group_by(periodo,sexo) %>% summarise(ocupados=sum(fex_c_2011)) %>% as.data.frame()
+peetn=nacional %>% subset(fuerza==1) %>% group_by(periodo,sexo) %>% summarise(pet=sum(fex_c_2011)) %>% as.data.frame() 
+oc=merge(x = oc,y = peetn,by = c('periodo','sexo'),all.x = T)
+oc$to=(oc$ocupados/oc$pet)*100
+#Tasa de ocupacion por genero, periodo y edad
+oc_edad=nacional %>% subset(ocupados==1) %>% group_by(periodo,sexo,p6040) %>% summarise(ocupados=sum(fex_c_2011)) %>% as.data.frame()
+peet_edad=nacional %>% subset(fuerza==1) %>% group_by(periodo,sexo,p6040) %>% summarise(pet=sum(fex_c_2011)) %>% as.data.frame() 
+oc_edad=merge(x = oc_edad,y = peet_edad,by = c('periodo','sexo','p6040'),all.x = T)
+oc_edad$to=(oc_edad$ocupados/oc_edad$pet)*100
+oc_edad = subset(oc_edad,p6040>=15&p6040<=75)
+to_ed_geb=ggplot(oc_edad,aes(x = p6040,y = to, group=interaction(periodo,sexo), color=periodo,shape=sexo))+ 
+                            geom_line()+geom_point()+theme_bw()+
+                            labs(title = "Tasa de ocupación por edad y género",y = "Tasa de ocupación",x = "Edad")+
+                            theme(plot.title = element_text(hjust = 0.5))+
+                            scale_x_continuous(n.breaks = 20)+ #https://stackoverflow.com/questions/11335836/increase-number-of-axis-ticks
+                            theme(legend.position="right")+
+                            scale_fill_viridis()
+ggsave(plot= to_ed_geb , file = "Taller 1/Resultados/tasa de ocupacion por genero y edad.jpeg")
+# Tasa de desempleo por genero, periodo y edad
+pet=nacional %>% subset(fuerza==1) %>% group_by(periodo,sexo) %>% summarise(pea=sum(fex_c_2011)) 
+ina=nacional %>% subset(inactivos==1) %>% group_by(periodo,sexo) %>% summarise(inactivos=sum(fex_c_2011))
+des=nacional %>% subset(desocupados==1) %>% group_by(periodo,sexo) %>% summarise(desosocupados=sum(fex_c_2011))
+pea=pet[,3]-ina[,3]
+unemployment3=(des[,3]/pea)*100
+periodo3=c("Junio 2019","Junio 2019","Junio 2020","Junio 2020")
+sexo3=c("Hombre","Mujer","Hombre","Mujer")
+unemployment3=cbind(sexo3,periodo3, unemployment3,des[,3],pea,ina[,3]) %>% as.data.frame()%>% print()
+
+pet=nacional %>% subset(fuerza==1) %>% group_by(periodo,sexo,p6040) %>% summarise(pea=sum(fex_c_2011)) 
+ina=nacional %>% subset(inactivos==1) %>% group_by(periodo,sexo,p6040) %>% summarise(inactivos=sum(fex_c_2011))
+des=nacional %>% subset(desocupados==1) %>% group_by(periodo,sexo,p6040) %>% summarise(desosocupados=sum(fex_c_2011))
+
+pet = merge(x = pet,y = ina,by = c('periodo','sexo','p6040'),all.x = T) %>% 
+      merge(.,y = des,by = c('periodo','sexo','p6040'),all.x = T)
+pet$td=((pet$desosocupados)/(pet$pea-pet$inactivos)*100)
+pet = subset(pet,p6040>=15&p6040<=75)
+td_ed_geb=ggplot(pet,aes(x = p6040,y = td, group=interaction(periodo,sexo), color=periodo,shape=sexo))+ 
+  geom_line()+geom_point()+theme_bw()+
+  labs(title = "Tasa de ocupación por edad y género",y = "Tasa de desempleo",x = "Edad")+
+  theme(plot.title = element_text(hjust = 0.5))+
+  scale_x_continuous(n.breaks = 20)+ #https://stackoverflow.com/questions/11335836/increase-number-of-axis-ticks
+  theme(legend.position="right")+
+  scale_fill_viridis()
+ggsave(plot= td_ed_geb , file = "Taller 1/Resultados/tasa de desempleo por genero y edad.jpeg")
