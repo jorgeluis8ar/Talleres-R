@@ -13,7 +13,7 @@ setwd("/Users/jorgeochoa/Documents/Universidad/Taller de R/Talleres-R")
 paquetes=c("tidyverse","data.table","ggplot2",'viridis')
 
 lapply(paquetes,require,character.only=T)
-source("taller 1/functions.R") 
+source("taller 1/Scripts/functions.R") 
 #---------------------------------------------------
 #          1.1 Importar bases de datos 
 #---------------------------------------------------
@@ -252,7 +252,7 @@ as.data.frame() %>% subset(p6040>=15&p6040<=75)
 contrato$tipo=ifelse(test = (contrato$p6440==1)==T,"Contrato laboral","Sin contrato laboral")
 contrato=ggplot(contrato,aes(x = p6040,y = salario,group=interaction(periodo,tipo),color=periodo,shape=tipo))+ # ayuda de "https://stackoverflow.com/questions/9968976/group-by-two-columns-in-ggplot2"
                    geom_line()+geom_point()+theme_bw()+
-                   labs(title = "Ingresos laborrales por tipo de contrato, edad y periodo",y = "Ingresos laboral",x = "Edad")+
+                   labs(title = "Ingresos laborales por tipo de contrato, edad y periodo",y = "Ingresos laboral",x = "Edad")+
                    theme(plot.title = element_text(hjust = 0.5))+
                    scale_x_continuous(n.breaks = 20)+ #https://stackoverflow.com/questions/11335836/increase-number-of-axis-ticks
                    theme(legend.position="right")+
