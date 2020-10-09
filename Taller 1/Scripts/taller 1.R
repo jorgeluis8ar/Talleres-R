@@ -254,7 +254,7 @@ contrato=ggplot(contrato,aes(x = p6040,y = salario,group=interaction(periodo,tip
                    geom_line()+geom_point()+theme_bw()+
                    labs(title = "Ingresos laborrales por tipo de contrato, edad y periodo",y = "Ingresos laboral",x = "Edad")+
                    theme(plot.title = element_text(hjust = 0.5))+
-                   scale_x_continuous(n.breaks = 20)+
+                   scale_x_continuous(n.breaks = 20)+ #https://stackoverflow.com/questions/11335836/increase-number-of-axis-ticks
                    theme(legend.position="right")+
                    scale_fill_viridis()
 ggsave(plot= contrato , file = "Taller 1/Resultados/Ingresos contrato.jpeg")
