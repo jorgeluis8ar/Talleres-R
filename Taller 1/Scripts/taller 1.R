@@ -8,7 +8,7 @@
 cat("\f")
 rm(list=ls())
 options("scipen"=100, "digits"=4)
-setwd("/Users/jorgeochoa/Documents/Universidad/Taller de R/Talleres-R")
+setwd("directorio")
 
 paquetes=c("tidyverse","data.table","ggplot2",'viridis')
 
