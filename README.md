@@ -16,43 +16,45 @@ El repositorio esta dividido de la siguiente manera:
 
 
 
-* [***Taller 2:***](https://github.com/jorgeluis8ar/Talleres-R/tree/main/Taller%202/Scripts) Introducción a la GEIH y cálculo del desempleo.
+* [***Taller 2:***](https://github.com/jorgeluis8ar/Talleres-R/tree/main/Taller%202) Introducción a la GEIH y cálculo del desempleo.
   + [***Resultados:***](https://github.com/jorgeluis8ar/Talleres-R/tree/main/Taller%202/Resultados) Resultados taller.
   + [***Scripts:***](https://github.com/jorgeluis8ar/Talleres-R/tree/main/Taller%202/Scripts) Códigos taller.
-  + [***Data***](https://github.com/jorgeluis8ar/Talleres-R/tree/main/Taller%202/Datos) Datos Taller.
+  + [***Datos***](https://github.com/jorgeluis8ar/Talleres-R/tree/main/Taller%202/Datos) Datos Taller.
   
   
-    - [***Junio 2019***](https://github.com/jorgeluis8ar/Talleres-R/tree/main/Taller%201/data/orignal/Junio%202019) Datos GEIH junio 2019.
+    - [***GEIH 2019***](https://github.com/jorgeluis8ar/Talleres-R/blob/main/Taller%202/Datos/GEIH%202018.zip) Datos GEIH 2018.
     
-    - [***Junio 2020***](https://github.com/jorgeluis8ar/Talleres-R/tree/main/Taller%201/data/orignal/Junio2%202020) Datos GEIH junio 2020.
+    - [***GEIH 2020***](https://github.com/jorgeluis8ar/Talleres-R/blob/main/Taller%202/Datos/GEIH%202019.zip) Datos GEIH 2020.
 
-## 1. Taller 2 - La GEIH
-|Departamento|Tasa de graduados de educacion superior|Tasa de analfabetismo|
-|---------|-----|-------|
-|ANTIOQUIA|7,639|9,217|
-|ATLANTICO|8,01|8,888|
-|STFE BOGOTA D.C|13,438|6,119|
-|BOLIVAR|5,466|11,378|
-|BOYACA|7,297|8,638|
-|CALDAS|6,373|8,958|
-|CAQUETA|4,136|12,412|
-|CAUCA|4,355|10,664|
-|CESAR|5,229|12,75|
-|CORDOBA|5,376|14,614|
-|CUNDINAMARCA|5,33|7,698|
-|CHOCO|4,772|21,009|
-|HUILA|5,334|10,764|
-|LA GUAJIRA|5,437|18,657|
-|MAGDALENA|4,599|14,139|
-|META|6,035|9,423|
-|NARIÑO|6,329|11,88|
-|N. SANTANDER|4,831|11,902|
-|QUINDIO|6,193|9,363|
-|RISARALDA|5,627|9,356|
-|SANTANDER|7,343|8,239|
-|SUCRE|5,235|14,782|
-|TOLIMA|5,506|10,248|
-|VALLE DEL CAUCA|6,636|8,545|
+## 1. Taller 2 - EIH y algunas estadísticas
+
+
+|Departamento|Tasa de analfabetismo 2018|Tasa de analfabetismo 2019|Tasa graduados educación superior 2018|Tasa graduados educación superior 2019|
+|---------|-----|-------|---|---|
+|Antioquia|9,094|9,217|7,232|7,639|
+|Atlantico|8,679|8,888|7,88|8,01|
+|Bogota D.C|5,537|6,119|13,344|13,438|
+|Bolivar|12,805|11,378|5,218|5,466|
+|Boyaca|9,081|8,638|7,01|7,297|
+|Caldas|9,214|8,958|6,394|6,373|
+|Caqueta|13,19|12,412|3,92|4,136|
+|Cauca|10,147|10,664|4,514|4,355|
+|Cesar|13,867|12,75|4,726|5,229|
+|Cordoba|14,371|14,614|4,9|5,376|
+|Cundinamarca|7,991|7,698|4,726|5,33|
+|Choco|22,154|21,009|4,525|4,772|
+|Huila|11,634|10,764|5,453|5,334|
+|La Guajira|18,348|18,657|4,75|5,437|
+|Magdalena|14,269|14,139|5,015|4,599|
+|Meta|9,205|9,423|5,672|6,035|
+|Nariño|11,365|11,88|5,483|6,329|
+|N. Santander|11,62|11,902|4,616|4,831|
+|Quindio|9,75|9,363|5,777|6,193|
+|Risaralda|8,688|9,356|5,601|5,627|
+|Santander|8,222|8,239|7,54|7,343|
+|Sucre|15,992|14,782|4,771|5,235|
+|Tolima|10,674|10,248|4,958|5,506|
+|V. Cauca|8,263|8,545|6,592|6,636|
 
 <img src="Taller 2/Resultados/analfabetismo.jpeg" class="center" alt="drawing" style="width:1000px;"/>
 <img src="Taller 2/Resultados/educacion.jpeg" class="center" alt="drawing" style="width:1000px;"/>
