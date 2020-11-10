@@ -86,3 +86,6 @@ El repositorio esta dividido de la siguiente manera:
 |Diciembre|Urbano|894.480|859.787|34.693|
 
 <img src="Taller 2/Resultados/mapa_analfabetismo.jpeg" class="center" alt="drawing" style="width:1000px;"/>
+<img src="Taller 2/Resultados/mapa_graduados.jpeg" class="center" alt="drawing" style="width:1000px;"/>
+
+<img src="Taller 2/Resultados/desempleo.jpeg" class="center" alt="drawing" style="width:1000px;"/>
