@@ -229,7 +229,7 @@ ggsave(filename = '/Users/jorgeochoa/Documents/Universidad/Taller de R/Talleres-
 ggplot() + geom_sf(data = mapa_illiteracy, color='black',aes(fill=porcentaje_2019),size=0.5)+
            scale_fill_viridis(name = "Tasa", na.value = "gray",direction = 1)+
           theme_bw()+ coord_sf()+
-          labs(title = "Tasa de analfabetismo",subtitle  = 'Departamental -Promedio 2019')+
+          labs(title = "Tasa de analfabetismo",subtitle  = 'Departamental - Promedio 2019')+
           annotation_scale(location = "bl", width_hint = 0.5) +
           annotation_north_arrow(location = "bl", which_north = "true", 
                                  pad_x = unit(0.75, "in"), pad_y = unit(0.5, "in"),
