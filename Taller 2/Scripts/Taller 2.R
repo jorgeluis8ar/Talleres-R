@@ -236,6 +236,8 @@ ggplot() + geom_sf(data = mapa_illiteracy, color='black',aes(fill=porcentaje_201
                                  style = north_arrow_fancy_orienteering) +
           theme(axis.title = element_blank(),
                 axis.text = element_blank(),
+                plot.title = element_text(hjust = 0.5, size = 10),
+                plot.subtitle = element_text(hjust = 0.5,size = 8),
                 axis.ticks = element_blank(),
                 panel.grid.major = element_blank(),
                 panel.grid.minor = element_blank(),
@@ -243,7 +245,7 @@ ggplot() + geom_sf(data = mapa_illiteracy, color='black',aes(fill=porcentaje_201
 ggsave(filename =  '/Users/jorgeochoa/Documents/Universidad/Taller de R/Talleres-R/Taller 2/Resultados/mapa_analfabetismo.jpeg',width = 14,height = 18,units = "cm")
 
 ggplot() + geom_sf(data = mapa_graduados, color='black',aes(fill=porcentaje_2019),size=0.5)+
-            scale_fill_viridis(name="Tasa de graduados",na.value = "gray",direction = 1)+
+            scale_fill_viridis(name="Tasa",na.value = "gray",direction = 1)+
             theme_bw()+ coord_sf()+
             labs(title = "Tasa de analfabetismo",subtitle  = 'Departamental - Promedio 2019')+
             annotation_scale(location = "bl", width_hint = 0.5) +
@@ -251,6 +253,8 @@ ggplot() + geom_sf(data = mapa_graduados, color='black',aes(fill=porcentaje_2019
                                    pad_x = unit(0.75, "in"), pad_y = unit(0.5, "in"),
                                    style = north_arrow_fancy_orienteering) +
             theme(axis.title = element_blank(),
+                  plot.title = element_text(hjust = 0.5, size = 10),
+                  plot.subtitle = element_text(hjust = 0.5,size = 8),
                   axis.text = element_blank(),
                   axis.ticks = element_blank(),
                   panel.grid.major = element_blank(),
