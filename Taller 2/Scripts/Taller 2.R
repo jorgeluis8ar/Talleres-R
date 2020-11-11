@@ -97,7 +97,7 @@ nacional = merge(x = carac_general,y = desocupado,by = c('secuencia_p','director
            merge(x = .,y = ocupado ,by = c('secuencia_p','directorio','orden','mes','periodo'),all.x = T,suffixes = c('_cg','_ocu')) %>% 
            merge(x = .,y = fuerza  ,by = c('secuencia_p','directorio','orden','mes','periodo'),all.x = T,suffixes = c('_cg','_fuer'))
 nacional %>% group_by(mes,periodo) %>% summarise(total=sum(fex_c_2011.x,na.rm=T)) %>% as.data.frame()
-rm(lista_data,lista_archivos2,meses,meses2,carac_general,inactivo,ocupado,fuerza,desocupado)
+rm(lista_data,lista_archivos2,meses,meses2,carac_general,inactivo,ocupado,fuerza,desocupado,lista_data2,lista_archivos,files, files2,path)
 # 1.4 Descriptivas --------------------------------------------------------
 
 pet = nacional %>% subset(fuerza==1) %>% group_by(mes,periodo) %>% summarise(pet=sum(fex_c_2011.x)) %>% 
@@ -179,75 +179,90 @@ tasa = dcast(setDT(tasa),formula = dpto.x~periodo,value.var = c('porcentaje','po
 tasa$dpto.x = ifelse(tasa$dpto.x=='5','05',ifelse(tasa$dpto.x=='8','08',tasa$dpto.x))
 
 # 2. Mapas ----------------------------------------------------------------
-rm(analfabetismo,des,educacion,ina,pea,pet,unemployment)
+rm(analfabetismo,des,educacion,ina,pea,pet,desempleo)
 path = '/Users/jorgeochoa/Documents/Universidad/Taller de R/Talleres/task-2/data/Original 2'
 mapa = st_read(path)
 
 mapa_illiteracy = merge(x = mapa,y = tasa_illite,by.x = 'DPTO',by.y = 'dpto.x',all.x=T)
 tasa_illite = merge(x = mapa,y = tasa_illite,by.x = 'DPTO',by.y = 'dpto.x',all.y=T)
 tasa_illite$NOMBRE_DPT = as.character(tasa_illite$NOMBRE_DPT)
-tasa_illite$NOMBRE_DPT = ifelse(tasa_illite$NOMBRE_DPT=='SANTAFE DE BOGOTA D.C','STFE BOGOTA D.C',ifelse(tasa_illite$NOMBRE_DPT=='NORTE DE SANTANDER','N. SANTANDER',ifelse(tasa_illite$NOMBRE_DPT=='SANTAFE VALLE DEL CAUCA','V. CAUCA',tasa_illite$NOMBRE_DPT)))
+tasa_illite$NOMBRE_DPT = str_to_title(tasa_illite$NOMBRE_DPT)
+tasa_illite$NOMBRE_DPT = ifelse(tasa_illite$NOMBRE_DPT=='Santafe De Bogota D.c','Bogota D.C',ifelse(tasa_illite$NOMBRE_DPT=='Norte De Santander','N. Santander',ifelse(tasa_illite$NOMBRE_DPT=='Valle Del Cauca','V. Cauca',tasa_illite$NOMBRE_DPT)))
 mapa_graduados  = merge(x = mapa,y = tasa,by.x = 'DPTO',by.y = 'dpto.x',all.x=T)
 tasa = merge(x = mapa,y = tasa,by.x = 'DPTO',by.y = 'dpto.x',all.y=T)
 tasa$NOMBRE_DPT = as.character(tasa$NOMBRE_DPT)
-tasa$NOMBRE_DPT = ifelse(tasa$NOMBRE_DPT=='SANTAFE DE BOGOTA D.C','BOGOTA D.C',ifelse(tasa_illite$NOMBRE_DPT=='NORTE DE SANTANDER','N. SANTANDER',ifelse(tasa$NOMBRE_DPT=='SANTAFE VALLE DEL CAUCA','V. CAUCA',tasa_illite$NOMBRE_DPT)))
+tasa$NOMBRE_DPT = str_to_title(tasa$NOMBRE_DPT)
+tasa$NOMBRE_DPT = ifelse(tasa$NOMBRE_DPT=='Santafe De Bogota D.c','Bogota D.C',ifelse(tasa$NOMBRE_DPT=='Norte De Santander','N. Santander',ifelse(tasa$NOMBRE_DPT=='Valle Del Cauca','V. Cauca',tasa$NOMBRE_DPT)))
 
-
-ggplot(tasa) + geom_bar(aes(x = NOMBRE_DPT, y = porcentaje),stat = "identity",position=position_dodge())+
+ggplot(tasa) + geom_bar(aes(x = NOMBRE_DPT, y = porcentaje_2019),stat = "identity",position=position_dodge())+
                       scale_x_discrete(guide = guide_axis(angle = 45)) +
                       theme(legend.position="right")+ theme_bw()+
-                      labs(title = "Tasa de graduados de eduación superior por departamento",y = "Tasa (%)",x = "Departamento")+
-                      theme(plot.title = element_text(hjust = 0.5),
+                      labs(title = "Tasa de graduados de eduación superior", subtitle = 'Departamental - Promedio 2019',
+                           y = "Tasa (%)",x = "Departamento")+
+                      theme(plot.title = element_text(hjust = 0.5,size = 10),
+                            plot.subtitle = element_text(hjust = 0.5,size = 8),
                             panel.grid.minor = element_line(size = 0.15),
                             panel.grid.major = element_line(size = 0.15),
                             legend.title = element_text(size=7),
                             legend.text = element_text(size=7),
-                            axis.title.y = element_text(size = 8),
-                            axis.title.x = element_text(size = 8))
+                            axis.title.y = element_text(size = 6),
+                            axis.title.x = element_text(size = 6),
+                            axis.text = element_text(size = 6))
 ggsave(filename = '/Users/jorgeochoa/Documents/Universidad/Taller de R/Talleres-R/Taller 2/Resultados/educacion.jpeg',width = 16,height = 8,units = "cm")
 
-ggplot(tasa_illite) + geom_bar(aes(x = NOMBRE_DPT, y = porcentaje),stat = "identity",position=position_dodge())+
+ggplot(tasa_illite) + geom_bar(aes(x = NOMBRE_DPT, y = porcentaje_2019),stat = "identity",position=position_dodge())+
                       scale_x_discrete(guide = guide_axis(angle = 45)) +
                       theme(legend.position="right")+ theme_bw()+
-                      labs(title = "Tasa de analfabetismo por departamento",y = "Tasa (%)",x = "Departamento")+
-                      theme(plot.title = element_text(hjust = 0.5),
+                      labs(title = "Tasa de analfabetismo", subtitle = 'Departamental - Promedio 2019',
+                           y = "Tasa (%)",x = "Departamento")+
+                      theme(plot.title = element_text(hjust = 0.5, size = 10),
+                            plot.subtitle = element_text(hjust = 0.5,size = 8),
                             panel.grid.minor = element_line(size = 0.15),
                             panel.grid.major = element_line(size = 0.15),
                             legend.title = element_text(size=7),
-                            legend.text = element_text(size=7))
+                            legend.text = element_text(size=7),
+                            axis.title.y = element_text(size = 6),
+                            axis.title.x = element_text(size = 6),
+                            axis.text = element_text(size = 6))
 ggsave(filename = '/Users/jorgeochoa/Documents/Universidad/Taller de R/Talleres-R/Taller 2/Resultados/analfabetismo.jpeg',width = 16,height = 8,units = "cm")
 
-ggplot() + geom_sf(data = mapa_illiteracy, color='black',aes(fill=porcentaje),size=0.5)+
-           scale_fill_viridis(name="Tasa de analfabetismo",na.value = "gray",direction = 1)+
-          theme_void()+ coord_sf()+
+ggplot() + geom_sf(data = mapa_illiteracy, color='black',aes(fill=porcentaje_2019),size=0.5)+
+           scale_fill_viridis(name = "Tasa", na.value = "gray",direction = 1)+
+          theme_bw()+ coord_sf()+
+          labs(title = "Tasa de analfabetismo",subtitle  = 'Departamental - Promedio 2019')+
           annotation_scale(location = "bl", width_hint = 0.5) +
           annotation_north_arrow(location = "bl", which_north = "true", 
                                  pad_x = unit(0.75, "in"), pad_y = unit(0.5, "in"),
                                  style = north_arrow_fancy_orienteering) +
           theme(axis.title = element_blank(),
+                axis.text = element_blank(),
+                axis.ticks = element_blank(),
                 panel.grid.major = element_blank(),
                 panel.grid.minor = element_blank(),
                 panel.background = element_rect(fill = "#E8D7BF"))
 ggsave(filename =  '/Users/jorgeochoa/Documents/Universidad/Taller de R/Talleres-R/Taller 2/Resultados/mapa_analfabetismo.jpeg',width = 14,height = 18,units = "cm")
 
-ggplot() + geom_sf(data = mapa_graduados, color='black',aes(fill=porcentaje),size=0.5)+
+ggplot() + geom_sf(data = mapa_graduados, color='black',aes(fill=porcentaje_2019),size=0.5)+
             scale_fill_viridis(name="Tasa de graduados",na.value = "gray",direction = 1)+
-            theme_void()+ coord_sf()+
+            theme_bw()+ coord_sf()+
+            labs(title = "Tasa de analfabetismo",subtitle  = 'Departamental - Promedio 2019')+
             annotation_scale(location = "bl", width_hint = 0.5) +
             annotation_north_arrow(location = "bl", which_north = "true", 
                                    pad_x = unit(0.75, "in"), pad_y = unit(0.5, "in"),
                                    style = north_arrow_fancy_orienteering) +
             theme(axis.title = element_blank(),
+                  axis.text = element_blank(),
+                  axis.ticks = element_blank(),
                   panel.grid.major = element_blank(),
                   panel.grid.minor = element_blank(),
                   panel.background = element_rect(fill = "#E8D7BF"))
 ggsave(filename =  '/Users/jorgeochoa/Documents/Universidad/Taller de R/Talleres-R/Taller 2/Resultados/mapa_graduados.jpeg',width = 14,height = 18,units = "cm")
 
-ingresos = nacional[,c(4,8,11,36,39,265)] %>% subset(is.na(inglabo)==F&p6040>=18&p6040<=28) %>% 
-  group_by(mes,dpto.x) %>% as.data.frame() 
+ingresos = nacional[,c(4,5,9,12,37,40,266)] %>% subset(is.na(inglabo)==F&p6040>=18&p6040<=28) %>% 
+  group_by(mes,dpto.x,periodo) %>% as.data.frame() 
 ingresos$urbano.x=as.character(ingresos$urbano.x)
-ingresos = ingresos %>% group_by(mes,p6020,urbano.x) %>% summarise(promedio=mean(inglabo,na.rm=T)) %>% as.data.frame() %>% 
-  reshape2::dcast(.,formula = mes+urbano.x~p6020,value.var = 'promedio')
+ingresos = ingresos %>% group_by(mes,p6020,urbano.x,periodo) %>% summarise(promedio=mean(inglabo,na.rm=T)) %>% as.data.frame() %>% 
+  reshape2::dcast(.,formula = mes+urbano.x+periodo~p6020,value.var = 'promedio')
 ingresos = mutate(ingresos,brecha=`1`-`2`)
 ggplot(data = ingresos,aes(x = mes,y =brecha,group=urbano.x,fill=urbano.x)) + 
             geom_bar(stat = "identity",position = position_dodge())+theme_bw()+
